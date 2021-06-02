@@ -1,5 +1,5 @@
-import React, { ConcurrentMode } from 'react'
-import { flushSync } from 'react-dom'
+import React, { ConcurrentMode } from 'react' // 低优先级更新
+import { flushSync } from 'react-dom' // 优先级最高
 
 import './index.css'
 

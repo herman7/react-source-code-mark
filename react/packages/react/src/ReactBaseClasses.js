@@ -63,7 +63,7 @@ Component.prototype.setState = function(partialState, callback) {
     'setState(...): takes an object of state variables to update or a ' +
       'function which returns an object of state variables.',
   );
-  this.updater.enqueueSetState(this, partialState, callback, 'setState');
+  this.updater.enqueueSetState(this, partialState, callback, 'setState'); // updater由ReactDOM或其他实现，与平台有关
 };
 
 /**
@@ -122,6 +122,7 @@ if (__DEV__) {
   }
 }
 
+// 用于实现继承
 function ComponentDummy() {}
 ComponentDummy.prototype = Component.prototype;
 
@@ -136,6 +137,7 @@ function PureComponent(props, context, updater) {
   this.updater = updater || ReactNoopUpdateQueue;
 }
 
+// PureComponent继承自Component
 const pureComponentPrototype = (PureComponent.prototype = new ComponentDummy());
 pureComponentPrototype.constructor = PureComponent;
 // Avoid an extra prototype jump for these methods.

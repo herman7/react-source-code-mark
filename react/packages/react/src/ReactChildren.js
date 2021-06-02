@@ -52,7 +52,7 @@ function escapeUserProvidedKey(text) {
 
 const POOL_SIZE = 10;
 const traverseContextPool = [];
-function getPooledTraverseContext(
+function getPooledTraverseContext( // 对象池，反复声明和删除对象会造成性能问题，使用对象池使得对象重复使用
   mapResult,
   keyPrefix,
   mapFunction,
@@ -145,11 +145,12 @@ function traverseAllChildrenImpl(
   const nextNamePrefix =
     nameSoFar === '' ? SEPARATOR : nameSoFar + SUBSEPARATOR;
 
+  // 上面都是children是单个节点的操作逻辑，如果是数组，走下面的逻辑
   if (Array.isArray(children)) {
     for (let i = 0; i < children.length; i++) {
       child = children[i];
       nextName = nextNamePrefix + getComponentKey(child, i);
-      subtreeCount += traverseAllChildrenImpl(
+      subtreeCount += traverseAllChildrenImpl( // 循环调用自身，使得数组中每个元素都调用一次callback(mapSingleChildIntoContext)
         child,
         nextName,
         callback,
@@ -290,7 +291,8 @@ function mapSingleChildIntoContext(bookKeeping, child, childKey) {
 
   let mappedChild = func.call(context, child, bookKeeping.count++);
   if (Array.isArray(mappedChild)) {
-    mapIntoWithKeyPrefixInternal(mappedChild, result, childKey, c => c);
+    // 注意这里传入的第四个参数为c => c而不再是mapChildren的第二个参数接收的外界传入的func，不然就无限循环下去了
+    mapIntoWithKeyPrefixInternal(mappedChild, result, childKey, c => c); 
   } else if (mappedChild != null) {
     if (isValidElement(mappedChild)) {
       mappedChild = cloneAndReplaceKey(
@@ -314,7 +316,7 @@ function mapIntoWithKeyPrefixInternal(children, array, prefix, func, context) {
     escapedPrefix = escapeUserProvidedKey(prefix) + '/';
   }
   const traverseContext = getPooledTraverseContext(
-    array,
+    array, // result
     escapedPrefix,
     func,
     context,

@@ -20,7 +20,7 @@ export const REACT_PORTAL_TYPE = hasSymbol
 export const REACT_FRAGMENT_TYPE = hasSymbol
   ? Symbol.for('react.fragment')
   : 0xeacb;
-export const REACT_STRICT_MODE_TYPE = hasSymbol
+export const REACT_CONCURRENT_MODE_TYPEREACT_STRICT_MODE_TYPE = hasSymbol
   ? Symbol.for('react.strict_mode')
   : 0xeacc;
 export const REACT_PROFILER_TYPE = hasSymbol

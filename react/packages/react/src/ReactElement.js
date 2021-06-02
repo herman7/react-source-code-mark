@@ -106,12 +106,12 @@ function defineRefPropWarningGetter(props, displayName) {
  * indicating filename, line number, and/or other information.
  * @param {*} owner
  * @param {*} props
- * @internal
+ * @internal 
  */
 const ReactElement = function(type, key, ref, self, source, owner, props) {
   const element = {
     // This tag allows us to uniquely identify this as a React Element
-    $$typeof: REACT_ELEMENT_TYPE,
+    $$typeof: REACT_ELEMENT_TYPE, // 标识element的类型为REACT_ELEMENT_TYPE(大部分情况)，也有可能是REACT_PORTAL_TYPE
 
     // Built-in properties that belong on the element
     type: type,
@@ -222,7 +222,7 @@ export function createElement(type, config, children) {
   if (type && type.defaultProps) {
     const defaultProps = type.defaultProps;
     for (propName in defaultProps) {
-      if (props[propName] === undefined) {
+      if (props[propName] === undefined) { // prop值为null并不会被使用defaultProp的值
         props[propName] = defaultProps[propName];
       }
     }
